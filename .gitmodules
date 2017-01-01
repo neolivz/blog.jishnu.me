@@ -1,0 +1,3 @@
+[submodule "neolivz.github.io"]
+	path = neolivz.github.io
+	url = git@github.com:neolivz/neolivz.github.io.git
