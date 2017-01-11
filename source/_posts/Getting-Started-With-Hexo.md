@@ -5,7 +5,7 @@ tags: [hexo, nodejs, blog, github]
 ---
 ## Introduction
 
-Finally I decided to start with my own blog. So naturally the question came up was which one to use? After careful consideration I decided to go for [Hexo](https://hexo.io) would be an ideal blogging platform. So I decided the first blog entry is how to setup Hexo and deploy in the server.
+Finally I decided to start with my own blog. So naturally the question came up was which one to use? After careful consideration I decided to go for [Hexo](https://hexo.io), which would be an ideal blogging platform. So naturally the first blog entry is how to setup Hexo and deploy in the server.
 
 
 ## Getting Started With Hexo
