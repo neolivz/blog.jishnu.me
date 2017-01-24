@@ -39,6 +39,9 @@ You will need to create a public repository with `yourGithubUserid.github.io` re
 
 `https://github.com/neolivz/neolivz.github.io` would be my github project name for my github page since my github userid is `neolivz`.
 
+PS:
+Every time you make a build you need to commit from submodule and followed by committing in the parent module.
+
 ## Adding Github Page as a Submodule to your project
 
 Add your github page as submodule to your project. This will help to generate the static pages and directly check into the
