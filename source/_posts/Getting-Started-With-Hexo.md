@@ -49,6 +49,13 @@ Add your github page as submodule to your project. This will help to generate th
 git submodule add git@github.com:neolivz/neolivz.github.io.git
 ```
 
+###NOTE
+If you are cloning a fresh checkout submodules won't be already fetched. So you will have to update the submodule with
+```
+git submodule init
+git submodule update
+```
+
 ## Configuring your hexo project
 
 In the file `_config.yml` makes the necessary edits, title subtitle, url etc.

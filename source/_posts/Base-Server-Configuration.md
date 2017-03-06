@@ -1,7 +1,7 @@
 ---
 title: Base Server Configuration
 date: 2017-02-08 14:37:07
-tags:
+tags: [ubuntu, vps, nginx, oh-my-zsh, zsh, git]
 ---
 
 I decided to scrap everything in my VPS and decided to start my web server from scratch. Here are the base stuff which I do.
@@ -34,7 +34,7 @@ Once that is done I create my user, neo; and create his home folders along with 
 useradd neo
 mkdir /home/neo
 mkdir /home/neo/.ssh
-chmod 700 /home/deploy/.ssh
+chmod 700 /home/neo/.ssh
 ```
 
 Once this is done, I set password for the new user and try to login as the user.
@@ -46,7 +46,9 @@ passwd neo
 Create a new terminal session and try to login. If you username is same for your local machine and remote machine you don't have to pass in the username.
 ```
 ssh neo@jishnu.me
+```
 or
+```
 ssh jishnu.me
 ```
 
@@ -101,7 +103,7 @@ It will ask for password, enter the password and it should get apt-get update ro
 Now we will prevent root logging in and password logging in.
 
 ```
-vim /etc/ssh/sshd_config
+sudo vim /etc/ssh/sshd_config
 ```
 Make the following changes
 ```
@@ -129,7 +131,7 @@ I am a big fan zsh and [oh-my-zsh](http://ohmyz.sh/).
 First we install zsh and change default shell to zsh.
 
 ```
-sudo apt-get insall zsh
+sudo apt-get install zsh
 sudo usermod -s $(which zsh) neo
 ```
 
@@ -178,7 +180,7 @@ whereis apache2
 Delete the resulting files/folders
 
 ## Installing nginx
-Based on the [guide](https://www.nginx.com/resources/wiki/start/topics/tutorials/install/)
+Based on the [guide](https://www.nginx.com/resources/wiki/start/topics/tutorials/install/) install
 In summary, edit the apt-get source file list
 ```
 sudo vi /etc/apt/sources.list
@@ -189,6 +191,10 @@ deb http://nginx.org/packages/ubuntu/ xenial nginx
 deb-src http://nginx.org/packages/ubuntu/ xenial nginx
 ```
 Where `xenial` is the release version of your ubuntu, mine being 16.04
+
+Further try one of the following
+
+### Option 1: Nginx website recommended method
 ```
 sudo apt-get update
 ```
@@ -202,3 +208,47 @@ sudo apt-get update
 sudo apt-get install nginx
 sudo systemctl start nginx
 ```
+
+### Option 2: Key issue
+When second time I tried I had issue with opening key file, google trouble shooting gave me this option
+```
+wget https://nginx.org/keys/nginx_signing.key -O - | sudo apt-key add -
+sudo apt-get update
+sudo apt-get install nginx
+sudo systemctl start nginx
+```
+
+## Multi domain / Sub domain configuration
+Go to nginx configuration directory
+```
+cd /etc/nginx/conf.d/
+sudo cp default.conf jishnu.me.conf
+sudo cp default.code beta.jishnu.me.conf
+sudo mv default.conf default.conf.bak
+```
+
+Now edit each file `sudo vi jishnu.me.conf` change the entries for corresponding keys
+```
+    server_name  jishnu.me www.jishnu.me;
+    location / {
+        root   /var/www/jishnu.me/html;
+        index  index.html index.htm;
+    }
+```
+
+Edit the similar changes for beta.jishnu.me
+
+Now create the folders `/var/www/jishnu.me/html`
+```
+sudo mkdir -p /var/www/jishnu.me/html
+sudo mkdir -p /var/www/beta.jishnu.me/html
+sudo touch /var/www/jishnu.me/html/live
+sudo touch /var/www/beta.jishnu.me/html/beta
+sudo service nginx reload
+sudo service nginx restart
+```
+
+now if you access `http://jishnu.me/live` or `http://beta.jishnu.me/beta` and will not get `404` or `403`.
+
+That's basic setup I have when I start my VPS.
+
